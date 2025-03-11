@@ -1,5 +1,5 @@
 import React from 'react';
-import { fireEvent, waitFor, render } from '@testing-library/react-native';
+import { fireEvent, waitFor, render, screen } from '@testing-library/react-native';
 import GroceryShoppingList from '../src/components/GroceryShoppingList';
 
 
@@ -47,8 +47,31 @@ describe('GroceryShoppingList', () => {
         expect(input.props.value).toBe('');
     });
 
+});
 
+describe('GroceryShoppingList - test integration', () => {
 
+    test('should enter grocery item, add item to the list and clear input', async () => {
+        const {getByPlaceholderText, getByRole} = render(
+            <GroceryShoppingList />
+        );
+
+        const input = getByPlaceholderText('Enter grocery item');
+        fireEvent.changeText(input, 'Water');
+
+        const button = getByRole('button');
+        fireEvent.press(button);
+
+        await waitFor(() => {
+            // expect(screen.getByText('Water')).toBeTruthy();
+            expect(screen.getByText('Water')).toBeDefined();
+        });
+
+        await waitFor(() => {
+            expect(input.props.value).toBe('');
+        });
+    });
 
 });
+
 
