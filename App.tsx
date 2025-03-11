@@ -4,7 +4,7 @@
  *
  * @format
  */
-
+// App.tsx
 import React from 'react';
 import { View, StyleSheet, SafeAreaView } from 'react-native';
 import GroceryShoppingList from './src/components/GroceryShoppingList';

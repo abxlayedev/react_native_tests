@@ -1,3 +1,4 @@
+// __tests__/GroceryShoppingList.test.tsx
 import React from 'react';
 import { fireEvent, waitFor, render, screen } from '@testing-library/react-native';
 import GroceryShoppingList from '../src/components/GroceryShoppingList';
@@ -46,6 +47,28 @@ describe('GroceryShoppingList', () => {
 
         expect(input.props.value).toBe('');
     });
+
+    test('should remove item from list when delete button is pressed', () => {
+        const {getByPlaceholderText, getByText, getByTestId} = render(
+            <GroceryShoppingList />
+        );
+
+        const input = getByPlaceholderText('Enter grocery item');
+        fireEvent.changeText(input, 'Banana');
+
+        const button = getByText('Add the item to the list');
+        fireEvent.press(button);
+
+        expect(screen.getByText('Banana')).toBeTruthy();
+
+        const deleteButton = getByTestId('button-delete-item-from-list');
+        fireEvent.press(deleteButton);
+
+        // expect(screen.queryByText('Banana')).toBeNull();
+        expect(() => screen.getByText('Banana')).toThrow();
+
+    });
+
 
 });
 
