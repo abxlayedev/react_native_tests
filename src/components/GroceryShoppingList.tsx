@@ -1,29 +1,34 @@
 // src/components/GroceryShoppingList.tsx
-import React, { useState, useCallback } from 'react';
-import { 
+import React, { useCallback, useState } from 'react';
+import {
     TextInput,
     Button,
     Text,
     View,
-    TouchableOpacity
+    TouchableOpacity,
  } from 'react-native';
+ import { useDispatch, useSelector } from 'react-redux';
+ import { addItems, removeItem } from '../redux/grocerySlice';
 
 function GroceryShoppingList() {
 
     const [groceryItem, setGroceryItem] = useState<string>('');
-    const [items, setItems] = useState<string[]>([]);
+    const items = useSelector((state: any) => state.grocery.items);
+    const dispatch = useDispatch();
 
     const addNewItemToShoppingList = useCallback(() => {
-        setItems([...items, groceryItem]);
+        if (!items.includes(groceryItem)) {
+            dispatch(addItems(groceryItem));
+        }
         setGroceryItem('');
-    }, [groceryItem, items]);
+    }, [items, groceryItem]);
 
-    const removeItem = (itemToRemove: string) => {
-        setItems(items.filter(item => item !== itemToRemove));
+    const deleteItem = (itemToRemove: string) => {
+        dispatch(removeItem(itemToRemove));
     };
 
     return (
-        <>
+        <View>
             <TextInput
                 value={groceryItem}
                 placeholder="Enter grocery item"
@@ -35,22 +40,22 @@ function GroceryShoppingList() {
                 onPress={addNewItemToShoppingList}
             />
 
-            {items.map((item, index) => {
+            {items.map((item: string, index: number) => {
                 return (
-                    <View>
-                        <Text key={index}>{item}</Text>
+                    <View key={index}>
+                        <Text>{item}</Text>
                         <TouchableOpacity
-                        testID="button-delete-item-from-list"
-                        onPress={() => removeItem(item)}
+                        testID={`button-delete-item-from-list-${index}`}
+                        onPress={() => deleteItem(item)}
                         >
                             <Text style={{color: 'red'}}>Delete item</Text>
                         </TouchableOpacity>
                     </View>
-                )
+                );
             })}
 
-        </>
-    )
+        </View>
+    );
 }
 
 export default GroceryShoppingList
