@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 // src/components/GroceryShoppingList.tsx
 import React, { useCallback, useState } from 'react';
 import {
@@ -21,6 +22,7 @@ function GroceryShoppingList() {
             dispatch(addItems(groceryItem));
         }
         setGroceryItem('');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [items, groceryItem]);
 
     const deleteItem = (itemToRemove: string) => {
@@ -58,4 +60,4 @@ function GroceryShoppingList() {
     );
 }
 
-export default GroceryShoppingList
+export default GroceryShoppingList;

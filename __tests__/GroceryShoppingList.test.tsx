@@ -9,9 +9,6 @@ const renderWithStore = (component: any) => {
     return render(<Provider store={store}>{component}</Provider>);
 };
 
-
-
-
 describe('GroceryShoppingList', () => {
 
     test('should remove item from list when delete button is pressed', async () => {
@@ -80,10 +77,6 @@ describe('GroceryShoppingList', () => {
 
         expect(input.props.value).toBe('');
     });
-
-
-
-
 });
 
 
@@ -112,5 +105,3 @@ describe('GroceryShoppingList - test integration', () => {
     });
 
 });
-
-
